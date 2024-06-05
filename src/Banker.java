@@ -65,12 +65,12 @@ public class Banker {
                 Q[i][j] = claim[i][j] - allocation[i][j];
             }
         }
-        //current takes process i and checks if can execute
+        //current takes process i and checks if the w is bigger in every cell
         for (int i = 0; i < claim.length; i++) {
             int[] current = Q[i].clone();
             for (int j = 0; j < w.length; j++) {
                 if (!(w[j] >= current[j]) || done.contains("process " + (i + 1))) {
-                    //failed condition or done dont need to count change flag to false
+                    //failed condition or done don't need to count change flag to false
                     flag = false;
                     break;
                 }
@@ -83,7 +83,7 @@ public class Banker {
                     Q[i][k] = 0;
                     w[k] += allocation[i][k];
                 }
-                //start the i back to -1 to check all processes after change
+                //start the index of first loop back to -1 to check all processes after change
                 i = -1;
             }
         }
@@ -92,7 +92,7 @@ public class Banker {
             System.out.println("safe");
             return;
         }
-        //didnt pass not safe prints everybody who isnt in done
+        //didn't pass not safe prints everybody who isn't in done
         System.out.println("Deadlock! ");
         for (int i = 0; i < allocation.length; i++)
             if (!done.contains("process " + (i + 1))) System.out.println("process " + (i + 1));
@@ -102,12 +102,12 @@ public class Banker {
 
         int max = 0;
         //loop runs on claim and check the highest demand for recourse n
-        for (int[] ints : claim) max = Math.max(max, ints[n - 1]);
+        for (int[] ins : claim) max = Math.max(max, ins[n - 1]);
         System.out.printf("The minimum amount of resource %d is %d\n", n, max);
     }
 
     public void checkRequest(int n, int[] request) {
-        //current takes process i and checks if can execute
+        //current takes process i and checks if the request is bigger in every cell
         int[] current = claim[n - 1].clone();
         for (int i = 0; i < current.length; i++)
             current[i] -= allocation[n - 1][i];
@@ -129,11 +129,11 @@ public class Banker {
         int pn = input.nextInt();
         System.out.println("Enter the number of resources  ");
         int rn = input.nextInt();
-        Banker prog = new Banker(pn, rn);
+        Banker program = new Banker(pn, rn);
 
-        prog.findMinAmount(3);
-        prog.checkRequest(1, new int[]{0, 0, 1, 1, 1});
-        prog.findDeadlock();
+        program.findMinAmount(3);
+        program.checkRequest(1, new int[]{0, 0, 1, 1, 1});
+        program.findDeadlock();
 
     }
 
