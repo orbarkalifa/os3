@@ -99,10 +99,30 @@ public class Banker {
         for (int i = 0; i < allocation.length; i++)
             if (!done.contains("process " + (i + 1))) System.out.println("process " + (i + 1));
     }
-
+    public static void findMinAmount(int n){
+        int max=0;
+        for (int[] ints : claim) max = Math.max(max, ints[n - 1]);
+        System.out.printf("The minimum amount of resource %d is %d\n",n,max);
+    }
+    public static void checkRequest(int n,int[] request) {
+            int[] current = claim[n - 1].clone();
+            for(int i=0;i<current.length;i++)
+                current[i] -= allocation[n-1][i];
+            for (int j = 0; j < request.length; j++) {
+                if (!(request[j] >= current[j])) {
+                    System.out.println("Request cannot be approved\n");
+                    return;
+                }
+            }
+        System.out.println("Request can be approved\n");
+    }
     public static void main(String[] args) {
 
+
+        findMinAmount(3);
+        checkRequest(1, new int[]{0, 0, 1, 1, 1});
         Banker.findDeadlock();
+
     }
 
 
