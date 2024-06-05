@@ -71,11 +71,10 @@ public class Banker {
             }
         }
 
-
         for (int i = 0; i < claim.length; i++) {
-            int[] currunt = Q[i].clone();
+            int[] current = Q[i].clone();
             for (int j = 0; j < w.length; j++) {
-                if ((!(w[j] < currunt[j])) || done.contains("process " + (i + 1))) {
+                if (!(w[j] >= current[j]) || done.contains("process " + (i + 1))) {
                     flag = false;
                     break;
                 }
