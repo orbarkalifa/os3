@@ -69,7 +69,7 @@ public class Banker {
         for (int i = 0; i < claim.length; i++) {
             int[] current = Q[i].clone();
             for (int j = 0; j < w.length; j++) {
-                if (!(w[j] >= current[j]) || done.contains("process " + (i + 1))) {
+                if ((w[j] < current[j]) || done.contains("process " + (i + 1))) {
                     //failed condition or done don't need to count change flag to false
                     flag = false;
                     break;
@@ -107,14 +107,17 @@ public class Banker {
     }
 
     public void checkRequest(int n, int[] request) {
-        //current takes process i and checks if the request is bigger in every cell
-        int[] current = claim[n - 1].clone();
-        for (int i = 0; i < current.length; i++)
-            current[i] -= allocation[n - 1][i];
-        for (int j = 0; j < request.length; j++) {
-            if (!(request[j] >= current[j])) {
-                //failed test
-                System.out.println("Request cannot be approved\n");
+        // need takes process i and checks if the request is bigger in every cell
+
+        // init need array
+        int[] need = claim[n - 1].clone();
+        for (int i = 0; i < need.length; i++)
+            need[i] -= allocation[n - 1][i];
+
+
+        for (int i = 0; i < available.length; i++) {
+            if (available[i] < request[i] || available[i] < need[i]) {
+                System.out.println("Request can not be approved\n");
                 return;
             }
         }
@@ -132,7 +135,7 @@ public class Banker {
         Banker program = new Banker(pn, rn);
 
         program.findMinAmount(3);
-        program.checkRequest(1, new int[]{0, 0, 1, 1, 1});
+        program.checkRequest(1, new int[]{0, 0, 0, 0, 0});
         program.findDeadlock();
 
     }
